@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+body,h1,h2,ul,p,figure {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: #fff;
+}
+
+#title{
+	text-align: center;
+	color: rgb(128,255,128);
+}
+#img{
+	margin:0 auto;
+	display：table-cell;
+	vertical-align: middle;
+}
