@@ -2,12 +2,17 @@ package wowpub.cn;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
+import java.io.Serializable;
 
-public class userInfo {
-	private String userName;
-	private String userPassword;
-	private String confirmPwd;
-	private String email;
+public class userInfo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String userName;
+	public String userPassword;
+	public String confirmPwd;
+	public String email;
 	public Map<String, String> msgMap = new HashMap<String, String>();
 	
 	public void SetUserName(String name){
@@ -42,23 +47,23 @@ public class userInfo {
 	
 	public boolean IsValidate(){
 		boolean isValidate = true;
-		if(this.userName != null && this.userName.length() <= 6){
-			msgMap.put("userName", "请输入不小于6位长度的用户！");
+		if(this.userName != null && this.userName.length() < 5){
+			msgMap.put("userName", "111");
 			isValidate = false;
 		}
 		
 		if(this.userPassword != null && this.userPassword.length() < 6){
-			msgMap.put("userPassword", "密码长度不小于6位数！");
+			msgMap.put("userPassword", "222");
 			isValidate = false;
 		}
 		
 		if(this.confirmPwd != null && !this.confirmPwd.equals(this.userPassword)){
-			msgMap.put("confirmPwd", "两次输入的密码不一致，请重新输入！");
+			msgMap.put("confirmPwd", "333");
 			isValidate = false;
 		}
 		
-		if(this.email != null && this.email.contains("@")){
-			msgMap.put("email", "邮箱格式不对！");
+		if(this.email != null && !this.email.contains("@")){
+			msgMap.put("email", "444");
 			isValidate = false;
 		}
 			
