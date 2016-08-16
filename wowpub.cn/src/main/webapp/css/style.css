@@ -10,9 +10,8 @@ body {
 
 #title{
 	text-align: center;
-	color: rgb(128,255,128);
+	/*color: rgb(128,255,128);*/
 }
 .center{
-	color:rgb(128,255,128);
 	margin-left:40%;
 }

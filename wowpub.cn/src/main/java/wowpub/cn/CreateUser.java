@@ -30,6 +30,12 @@ public class CreateUser extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			userInfo userinfo = WebUtil.Request2Bean(request, userInfo.class);
+			if(!userinfo.IsValidate()){
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				return;
+			}
+						
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("loading mysql driver !");
 		} catch (ClassNotFoundException e) {
@@ -52,7 +58,7 @@ public class CreateUser extends HttpServlet {
 			System.out.println(e.getMessage());
 			e.printStackTrace();	
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Create account OK!").append(request.getContextPath());
 	}
 
 	/**
