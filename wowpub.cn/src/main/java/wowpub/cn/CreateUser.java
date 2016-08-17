@@ -32,13 +32,12 @@ public class CreateUser extends HttpServlet {
 		userInfo registInfo;
 		// TODO Auto-generated method stub
 		try {
-			//userInfo userinfo1 = WebUtil.Request2Bean(request, userInfo.class);
-			registInfo = new userInfo();
-
-			registInfo.setUserName(request.getParameter("userName"));
-			registInfo.setUserPassword(request.getParameter("userPassword"));
-			registInfo.setConfirmPwd(request.getParameter("confirmPwd"));
-			registInfo.setEmail(request.getParameter("email"));
+			registInfo = WebUtil.Request2Bean(request, userInfo.class);
+			//registInfo = new userInfo();
+//			registInfo.setUserName(request.getParameter("userName"));
+//			registInfo.setUserPassword(request.getParameter("userPassword"));
+//			registInfo.setConfirmPwd(request.getParameter("confirmPwd"));
+//			registInfo.setEmail(request.getParameter("email"));
 
 			if(!registInfo.IsValidate()){
 				request.setAttribute("registInfo", registInfo);

@@ -2,7 +2,7 @@
 
 body,h1,h2,ul,p,figure {
 	margin: 0;
-	padding: 0;
+	padding: 10;
 }
 body {
 	background-color: #fff;
@@ -10,8 +10,9 @@ body {
 
 #title{
 	text-align: center;
-	/*color: rgb(128,255,128);*/
+	color: rgb(128,255,128);
 }
 .center{
 	margin-left:40%;
+	color: rgb(128,255,128);
 }
