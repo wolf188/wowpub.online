@@ -1,7 +1,6 @@
 package wowpub.cn;
 import org.apache.commons.beanutils.*;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.beanutils.converters.BooleanConverter;
 
 import java.lang.reflect.InvocationTargetException;
 //import java.lang.reflect.InvocationTargetException;

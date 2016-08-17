@@ -1,15 +1,11 @@
 package wowpub.cn;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 import java.sql.*;
 
@@ -33,44 +29,69 @@ public class CreateUser extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		userInfo userinfo1;
+		userInfo registInfo;
 		// TODO Auto-generated method stub
 		try {
 			//userInfo userinfo1 = WebUtil.Request2Bean(request, userInfo.class);
-			userinfo1 = new userInfo();
+			registInfo = new userInfo();
 
-			userinfo1.userName = request.getParameter("userName");
-			userinfo1.userPassword = request.getParameter("userPassword");
-			userinfo1.confirmPwd = request.getParameter("confirmPwd");
-			userinfo1.email = request.getParameter("email");
+			registInfo.setUserName(request.getParameter("userName"));
+			registInfo.setUserPassword(request.getParameter("userPassword"));
+			registInfo.setConfirmPwd(request.getParameter("confirmPwd"));
+			registInfo.setEmail(request.getParameter("email"));
 
-			if(!userinfo1.IsValidate()){
-				request.setAttribute("userinfo1", userinfo1);
+			if(!registInfo.IsValidate()){
+				request.setAttribute("registInfo", registInfo);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 				return;
-			}
-						
+			}	
+			
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("loading mysql driver !");
 
-			Connection connection = DriverManager.getConnection("jdbc:mysql://120.76.120.122:3306/realmd1", "root", "Mangos!1");
+			Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/realmd1", "root", "Mangos!1");
 			System.out.println("Connect mysql !");
 			Statement state = connection.createStatement();
-			String sql = String.format("INSERT INTO account(username, sha_pass_hash, expansion) VALUES(%s,SHA1(CONCAT(UPPER(%s),':',UPPER(%s))), 1)", 
-					userinfo1.userName, userinfo1.userName, userinfo1.userPassword);
-			//ResultSet rs = state.executeQuery(sql);
+			
+			/***************start 确认账号是否已存在*******/
+			String sql = String.format("select username from account where username='%s'", registInfo.getUserName());
+			ResultSet Rs = state.executeQuery(sql);
+			if(Rs.next()){
+				registInfo.getMsgMap().put("userName", "用户名已存在！");
+				request.setAttribute("registInfo", registInfo);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				return;
+			}
+			/***************end 确认账号是否已存在*******/
+			
+			/***************start 确认账号是否已存在*******/
+			sql = String.format("select email from account where email='%s'", registInfo.getEmail());
+			Rs = state.executeQuery(sql);
+			if(Rs.next()){
+				registInfo.getMsgMap().put("email", "邮箱已有人使用！");
+				request.setAttribute("registInfo", registInfo);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				return;
+			}
+			/***************end 确认账号是否已存在*******/
+			
+			sql = String.format("INSERT INTO account(username, sha_pass_hash, email, expansion) VALUES(\"%s\",SHA1(CONCAT(UPPER(\"%s\"),':',UPPER(\"%s\"))), \"%s\",1)", 
+					registInfo.getUserName(), registInfo.getUserName(), registInfo.getUserPassword(), registInfo.getEmail());
+			
 			int nRs = state.executeUpdate(sql);
 			if(nRs != 1){
-				response.getWriter().append("创建账号失败！");
+				registInfo.getMsgMap().put("failed", "哦哦,创建账号失败,请重试！");
+				request.setAttribute("registInfo", registInfo);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 			else{
-				request.getRequestDispatcher("/web-inf/login.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/page/login.jsp").forward(request, response);
 			}
 				
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
-			e.printStackTrace();	
+			e.printStackTrace();
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
@@ -82,7 +103,6 @@ public class CreateUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
 		doGet(request, response);
 	}
 

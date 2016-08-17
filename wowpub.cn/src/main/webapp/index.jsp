@@ -1,4 +1,5 @@
 <%@ page language="java" isELIgnored="false" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML>
 
 <html lang="zh-cn">
@@ -13,10 +14,10 @@
 <div id="title"><h1>欢迎光临魔兽吧</h1></div><br/>
 <div>
 	<form  class="center" action="createUser" method="post">
-		用户名称:<input name="userName" value="${userinfo1.userName}" width = 200 placeholder="请输入用户名！" >${userinfo1.msgMap.userName}<br><br>
-		用户密码:<input type="password" name="userPassword" placeholder="请输入密码！" value="${userinfo1.userPassword}" width = 200>${userinfo1.msgMap.userPassword}<br/><br/>
-		密码确认:<input type="password" name="confirmPwd" placeholder="请重新输入密码！" value="${userinfo1.confirmPwd}" width = 200>${userinfo1.msgMap.confirmPwd}<br/><br/>
-		常用邮箱:<input name="email" placeholder="请输入常用邮箱  !" value="${userinfo.email}" width = 200>${userinfo.msgMap.email}<br/><br/>
+		用户名称:<input name="userName" value="${registInfo.userName}"  width = 200 placeholder="请输入用户名！">&nbsp;${registInfo.msgMap.userName}<br><br>
+		用户密码:<input type="password" name="userPassword" value = "${registInfo.userPassword }" placeholder="请输入密码！"  width = 200>&nbsp;${registInfo.msgMap.userPassword}<br/><br/>
+		密码确认:<input type="password" name="confirmPwd" value = "${registInfo.confirmPwd }" placeholder="请重新输入密码！"  width = 200>&nbsp;${registInfo.msgMap.confirmPwd}<br/><br/>
+		常用邮箱:<input name="email" placeholder="请输入常用邮箱  !" value = "${registInfo.email }" width = 200>${registInfo.msgMap.email}&nbsp;<br/><br/>
 		<input type="submit" value="提交">
 	</form>
 </div>

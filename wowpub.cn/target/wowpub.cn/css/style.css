@@ -10,10 +10,8 @@ body {
 
 #title{
 	text-align: center;
-	color: rgb(128,255,128);
+	/*color: rgb(128,255,128);*/
 }
-#img{
-	margin:0 auto;
-	display：table-cell;
-	vertical-align: middle;
+.center{
+	margin-left:40%;
 }
