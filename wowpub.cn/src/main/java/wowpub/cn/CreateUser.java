@@ -22,13 +22,15 @@ public class CreateUser extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//socket test
+		WebSocket.sendData("java socket test!");
 		userInfo registInfo;
 		// TODO Auto-generated method stub
 		try {
@@ -59,6 +61,7 @@ public class CreateUser extends HttpServlet {
 				registInfo.getMsgMap().put("userName", "用户名已存在！");
 				request.setAttribute("registInfo", registInfo);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				state.close();
 				return;
 			}
 			/***************end 确认账号是否已存在*******/
@@ -70,6 +73,7 @@ public class CreateUser extends HttpServlet {
 				registInfo.getMsgMap().put("email", "邮箱已有人使用！");
 				request.setAttribute("registInfo", registInfo);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				state.close();
 				return;
 			}
 			/***************end 确认账号是否已存在*******/
@@ -86,7 +90,7 @@ public class CreateUser extends HttpServlet {
 			else{
 				request.getRequestDispatcher("/WEB-INF/page/login.jsp").forward(request, response);
 			}
-				
+			state.close();	
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());

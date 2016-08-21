@@ -18,6 +18,6 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>CreateUser</servlet-name>
-  	<url-pattern>/createUser</url-pattern>
+  	<url-pattern>/page/createUser</url-pattern>
   </servlet-mapping>
 </web-app>
