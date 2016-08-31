@@ -43,14 +43,14 @@ public class CreateUser extends HttpServlet {
 
 			if(!registInfo.IsValidate()){
 				request.setAttribute("registInfo", registInfo);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				request.getRequestDispatcher("./registerPage.jsp").forward(request, response);
 				return;
 			}	
 			
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("loading mysql driver !");
 
-			Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/realmd1", "root", "Mangos!1");
+			Connection connection = DriverManager.getConnection("jdbc:mysql://120.76.120.122:3306/realmd1", "root", "Mangos!1");
 			System.out.println("Connect mysql !");
 			Statement state = connection.createStatement();
 			
@@ -60,8 +60,8 @@ public class CreateUser extends HttpServlet {
 			if(Rs.next()){
 				registInfo.getMsgMap().put("userName", "用户名已存在！");
 				request.setAttribute("registInfo", registInfo);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
-				state.close();
+				request.getRequestDispatcher("./registerPage.jsp").forward(request, response);
+				connection.close();
 				return;
 			}
 			/***************end 确认账号是否已存在*******/
@@ -72,8 +72,8 @@ public class CreateUser extends HttpServlet {
 			if(Rs.next()){
 				registInfo.getMsgMap().put("email", "邮箱已有人使用！");
 				request.setAttribute("registInfo", registInfo);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
-				state.close();
+				request.getRequestDispatcher("./registerPage.jsp").forward(request, response);
+				connection.close();
 				return;
 			}
 			/***************end 确认账号是否已存在*******/
@@ -85,17 +85,18 @@ public class CreateUser extends HttpServlet {
 			if(nRs != 1){
 				registInfo.getMsgMap().put("failed", "哦哦,创建账号失败,请重试！");
 				request.setAttribute("registInfo", registInfo);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				request.getRequestDispatcher("./registerPage.jsp").forward(request, response);
 			}
 			else{
-				request.getRequestDispatcher("/WEB-INF/page/login.jsp").forward(request, response);
+				request.getRequestDispatcher("../WEB-INF/page/login.jsp").forward(request, response);
 			}
-			state.close();	
+			connection.close();	
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			//request.getRequestDispatcher("../index.jsp").forward(request, response);
+			response.sendRedirect("../index.jsp");
 		}
 	}
 
